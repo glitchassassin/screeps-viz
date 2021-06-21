@@ -1,0 +1,1 @@
+export type Widget = (pos: {x: number, y: number}, width: number, height: number, params: Record<string, any>) => void;
