@@ -11,7 +11,7 @@ const defaultConfig: TableConfig = {
     headers: [],
 }
 
-export function Table(config: Partial<TableConfig>, data: (params: Record<string, any>) => TableData): Widget {
+export function Table(data: (params: Record<string, any>) => TableData, config: Partial<TableConfig> = {}): Widget {
     const mergedConfig = {
         ...defaultConfig,
         ...config

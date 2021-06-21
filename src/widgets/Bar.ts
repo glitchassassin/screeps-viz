@@ -21,7 +21,7 @@ const defaultConfig: BarConfig = {
     }
 }
 
-export function Bar(config: Partial<BarConfig>, data: (params: Record<string, any>) => BarData): Widget {
+export function Bar(data: (params: Record<string, any>) => BarData, config: Partial<BarConfig> = {}): Widget {
     const mergedConfig = {
         ...defaultConfig,
         ...config
@@ -29,15 +29,13 @@ export function Bar(config: Partial<BarConfig>, data: (params: Record<string, an
     return (pos: {x: number, y: number}, width: number, height: number, params: Record<string, any>) => {
         let { value, maxValue } = data(params);
 
-        if (!maxValue) maxValue = value;
-
         const effectiveMax = Math.max(value, maxValue ?? 0);
         const valueHeight = Math.max(
             effectiveMax !== 0 ? (value / effectiveMax) * (height - 1) : 0,
             0.1
         );
         const maxValueHeight = Math.max(
-            effectiveMax !== 0 ? (maxValue / effectiveMax) * (height - 1) : 0,
+            effectiveMax !== 0 ? ((maxValue ?? value) / effectiveMax) * (height - 1) : 0,
             0.1
         );
 

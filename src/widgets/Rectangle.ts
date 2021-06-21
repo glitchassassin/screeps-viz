@@ -16,7 +16,7 @@ const defaultConfig: RectangleConfig = {
     }
 }
 
-export function Rectangle(config: Partial<RectangleConfig>, widget: Widget): Widget {
+export function Rectangle(widget: Widget, config: Partial<RectangleConfig> = {}): Widget {
     const mergedConfig = {
         ...defaultConfig,
         ...config

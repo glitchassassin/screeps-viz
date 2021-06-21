@@ -16,7 +16,7 @@ const defaultConfig: GridConfig = {
  * A simple grid that splits space evenly between widgets. If more widgets are provided than
  * will fit, the remaining widgets are silently ignored.
  */
-export function Grid(config: Partial<GridConfig>, widgets: Widget[]): Widget {
+export function Grid(widgets: Widget[], config: Partial<GridConfig> = {}): Widget {
     const mergedConfig = {
         ...defaultConfig,
         ...config
@@ -29,6 +29,7 @@ export function Grid(config: Partial<GridConfig>, widgets: Widget[]): Widget {
         
         for (let q = 0; q < columns; q++) {
             for (let r = 0; r < rows; r++) {
+                if (!widgets[q + (r * columns)]) break;
                 widgets[q + (r * columns)](
                     {
                         x: pos.x + (widgetWidth + padding) * q,
