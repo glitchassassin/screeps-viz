@@ -30,7 +30,7 @@ export function Table(config: Partial<TableConfig>, data: (params: Record<string
         
         // Draw label
         if (label) {
-            viz.text(label, (pos.x + width / 2), pos.y + 1);
+            viz.text(label, (pos.x + width / 2), pos.y);
         }
 
         // Draw headers

@@ -33,22 +33,22 @@ export function Bar(config: Partial<BarConfig>, data: (params: Record<string, an
 
         const effectiveMax = Math.max(value, maxValue ?? 0);
         const valueHeight = Math.max(
-            effectiveMax !== 0 ? (value / effectiveMax) * height : 0,
+            effectiveMax !== 0 ? (value / effectiveMax) * (height - 1) : 0,
             0.1
         );
         const maxValueHeight = Math.max(
-            effectiveMax !== 0 ? (maxValue / effectiveMax) * height : 0,
+            effectiveMax !== 0 ? (maxValue / effectiveMax) * (height - 1) : 0,
             0.1
         );
 
         // Draw labels
         let center = pos.x + width / 2;
-        viz.text(mergedConfig.label, center, pos.y + height - 1);
-        viz.text(maxValue?.toFixed(0) ?? '', center, pos.y);
-        viz.text(value.toFixed(0), center, pos.y + height - 2.5);
+        viz.text(mergedConfig.label, center, pos.y + height);
+        viz.text(maxValue?.toFixed(0) ?? '', center, pos.y + 1);
+        viz.text(value.toFixed(0), center, pos.y + height - 1.5);
 
         // Draw bar, scaled
-        viz.rect(pos.x, pos.y + (height - maxValueHeight), width, maxValueHeight, {...mergedConfig.style, fill: 'transparent'});
-        viz.rect(pos.x, pos.y + (height - valueHeight), width, valueHeight, {...mergedConfig.style, stroke: 'transparent'});
+        viz.rect(pos.x, pos.y + (height - maxValueHeight - 1), width, maxValueHeight, {...mergedConfig.style, fill: 'transparent'});
+        viz.rect(pos.x, pos.y + (height - valueHeight - 1), width, valueHeight, {...mergedConfig.style, stroke: 'transparent'});
     };
 }
