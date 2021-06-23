@@ -33,7 +33,7 @@ export function Grid(widgets: Widget[], config: Partial<GridConfig> = {}): Widge
                 widgets[q + (r * columns)](
                     {
                         x: pos.x + (widgetWidth + padding) * q,
-                        y: pos.y + (widgetWidth + padding) * r,
+                        y: pos.y + (widgetHeight + padding) * r,
                     }, 
                     widgetWidth,
                     widgetHeight,
