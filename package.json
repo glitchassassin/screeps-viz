@@ -2,7 +2,9 @@
   "name": "screeps-viz",
   "version": "1.0.0",
   "description": "In-game visualizations and metrics library for Screeps",
-  "main": "main.js",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "files": ["dist/**/*"],
   "scripts": {
     "test": "jest",
     "build": "rollup -c"

@@ -1,6 +1,7 @@
 import { Bar } from "./widgets/Bar";
 import { Dashboard } from "./Dashboard";
 import { Grid } from "./widgets/Grid";
+import { Label } from "./widgets/Label";
 import { LineChart } from "./widgets/LineChart/LineChart";
 import { Rectangle } from "./widgets/Rectangle";
 import { Table } from "./widgets/Table";
@@ -99,8 +100,35 @@ const dashboard = Dashboard({
                             [Game.time - 1, 1],
                             [Game.time - 0, 0],
                         ],
-                    })
+                    }),
+                    {
+                        series: {
+                            series1: {
+                                label: 'Series 1',
+                                color: 'lime'
+                            },
+                            series2: {
+                                label: 'Series 2',
+                                color: 'aqua',
+                                style: 'dashed'
+                            },
+                        }
+                    }
                 )
+            )
+        },
+        {
+            pos: {
+                x: 25,
+                y: 3
+            },
+            width: 20,
+            height: 5,
+            widget: Rectangle(
+                Grid([
+                    Label(() => 'screeps-viz', {style: {font: 1.4}}),
+                    Label(() => 'Demo Dashboard', {style: {font: 1.4}}),
+                ], { columns: 1, rows: 2 })
             )
         }
     ]
