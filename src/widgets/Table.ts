@@ -26,7 +26,10 @@ export function Table(data: (params: Record<string, any>) => TableData, config: 
             return width;
         });
         const columnWidthSum = columnWidths.reduce((a, b) => (a + b), 0);
-        const columnOffsets = [0, ...columnWidths.map(colWidth => (width * (colWidth / columnWidthSum)))];
+        const columnOffsets = [0];
+        columnWidths.forEach((colWidth, index) => {
+            columnOffsets.push((width * (colWidth / columnWidthSum)) + columnOffsets[index]);
+        });
         
         // Draw label
         if (label) {

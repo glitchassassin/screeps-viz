@@ -26,4 +26,11 @@ describe('Table', () => {
         expect(viz().text).toBeCalledWith('1', 0, 1, {'align': 'left'});
         expect(viz().text).toBeCalledWith('444', 2.5, 2, {'align': 'left'});
     });
+    it('should plot multiple columns', () => {
+        const widget = Table(() => ([['1', '2', '3', '4'], ['5', '6', '7', '8']]), {headers: ['1', '2', '3', '4']});
+        widget({x: 0, y: 0}, 10, 10, {})
+        expect(viz().text).toBeCalledTimes(12);
+        expect(viz().text).toBeCalledWith('1', 0, 1, {'align': 'left'});
+        expect(viz().text).toBeCalledWith('8', 7.5, 2, {'align': 'left'});
+    });
 });
