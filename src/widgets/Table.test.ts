@@ -10,7 +10,7 @@ describe('Table', () => {
     it('should plot optional label', () => {
         const widget = Table(() => ([]), {label: 'Hello World'});
         widget({x: 0, y: 0}, 10, 10, {})
-        expect(viz.text).toBeCalledWith('Hello World', 5, 1);
+        expect(viz.text).toBeCalledWith('Hello World', 5, 0);
     });
     it('should plot two rows', () => {
         const widget = Table(() => ([['hello1', 'world1'], ['hello2', 'world2']]), {headers: ['header1', 'header2']});

@@ -90,12 +90,12 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
         })
 
         viz.text(
-            (Game.time - 100).toFixed(0) ?? '',
+            mergedConfig.scale?.x.min.toFixed(0) ?? '',
             pos.x + 1.5,
             pos.y + height
         )
         viz.text(
-            Game.time.toFixed() ?? '',
+            mergedConfig.scale?.x.max.toFixed() ?? '',
             pos.x + width - 0.5,
             pos.y + height
         )
