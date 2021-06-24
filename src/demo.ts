@@ -124,12 +124,7 @@ const dashboard = Dashboard({
             },
             width: 20,
             height: 5,
-            widget: Rectangle(
-                Grid([
-                    Label(() => 'screeps-viz', {style: {font: 1.4}}),
-                    Label(() => 'Demo Dashboard', {style: {font: 1.4}}),
-                ], { columns: 1, rows: 2 })
-            )
+            widget: Rectangle(Label(() => 'screeps-viz', {style: {font: 1.4}}))
         }
     ]
 });
