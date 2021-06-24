@@ -9,6 +9,6 @@ describe('LineChart', () => {
             label: 'chart'
         });
         widget({x: 0, y: 0}, 10, 10, {})
-        expect(viz.text).toBeCalledWith('chart', 5, 10);
+        expect(viz().text).toBeCalledWith('chart', 5, 10);
     });
 });

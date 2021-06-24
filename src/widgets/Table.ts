@@ -30,17 +30,17 @@ export function Table(data: (params: Record<string, any>) => TableData, config: 
         
         // Draw label
         if (label) {
-            viz.text(label, (pos.x + width / 2), pos.y);
+            viz().text(label, (pos.x + width / 2), pos.y);
         }
 
         // Draw headers
         headers.forEach((header, index) => {
-            viz.text(header, pos.x + columnOffsets[index], pos.y + labelHeight, {align: 'left'});
+            viz().text(header, pos.x + columnOffsets[index], pos.y + labelHeight, {align: 'left'});
         })
         // Draw body
         rows.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
-                viz.text(cell, pos.x + columnOffsets[columnIndex], pos.y + 1 + labelHeight + rowIndex, {align: 'left'});
+                viz().text(cell, pos.x + columnOffsets[columnIndex], pos.y + 1 + labelHeight + rowIndex, {align: 'left'});
             })
         })
     }

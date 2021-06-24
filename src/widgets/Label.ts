@@ -31,6 +31,6 @@ export function Label(data: (params: Record<string, any>) => string, config: Par
             x = pos.x + width / 2;
             y = pos.y + height / 2;
         }
-        viz.text(data(params), x, y, mergedConfig.style);
+        viz().text(data(params), x, y, mergedConfig.style);
     };
 }

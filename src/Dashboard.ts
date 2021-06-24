@@ -1,4 +1,5 @@
 import { Widget } from "./Widget";
+import { setRoom } from "./Viz";
 
 export interface DashboardConfig {
     widgets: {
@@ -6,7 +7,8 @@ export interface DashboardConfig {
         width: number,
         height: number,
         widget: Widget
-    }[]
+    }[],
+    room?: string
 }
 
 const defaultConfig: DashboardConfig = {
@@ -18,6 +20,8 @@ export function Dashboard(config: Partial<DashboardConfig>) {
         ...defaultConfig,
         ...config
     }
+    setRoom(mergedConfig.room);
+    
     return (args: Record<string, any> = {}) => {
         mergedConfig.widgets.forEach(widget => {
             widget.widget(widget.pos, widget.width, widget.height, args);

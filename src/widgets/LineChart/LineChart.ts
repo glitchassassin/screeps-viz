@@ -57,10 +57,10 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
 
         // Draw labels
         let center = pos.x + width / 2;
-        viz.text(mergedConfig.label, center, pos.y + height);
+        viz().text(mergedConfig.label, center, pos.y + height);
 
         // Draw Chart, scaled
-        viz.rect(pos.x + 1, pos.y, width - 1, height - 1, mergedConfig.style);
+        viz().rect(pos.x + 1, pos.y, width - 1, height - 1, mergedConfig.style);
 
         // Calculate bounds of chart
         if (!config.scale) {
@@ -79,7 +79,7 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
             // Draw label
             const labelWidth = ((width - 6) / labelCount);
             const offset = 3 + labelWidth * (index + 0.5);
-            viz.text(
+            viz().text(
                 mergedConfig.series[s].label, 
                 pos.x + offset, 
                 pos.y + height, 
@@ -89,22 +89,22 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
             );
         })
 
-        viz.text(
+        viz().text(
             mergedConfig.scale?.x.min.toFixed(0) ?? '',
             pos.x + 1.5,
             pos.y + height
         )
-        viz.text(
+        viz().text(
             mergedConfig.scale?.x.max.toFixed() ?? '',
             pos.x + width - 0.5,
             pos.y + height
         )
-        viz.text(
+        viz().text(
             mergedConfig.scale?.y.min.toFixed(0) ?? '',
             pos.x,
             pos.y + height - 1
         )
-        viz.text(
+        viz().text(
             mergedConfig.scale?.y.max.toFixed(0) ?? '',
             pos.x,
             pos.y + 0.5
@@ -112,7 +112,7 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
 
         // Display lines
         series.forEach(s => {
-            viz.poly(chartSeriesData[s].map(coords => 
+            viz().poly(chartSeriesData[s].map(coords => 
                 chartSpaceToRoomPosition(
                     pos.x + 1, 
                     pos.y,

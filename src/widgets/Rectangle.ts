@@ -23,7 +23,7 @@ export function Rectangle(widget: Widget, config: Partial<RectangleConfig> = {})
     };
     return (pos: {x: number, y: number}, width: number, height: number, params: Record<string, any>) => {
         const { padding, style } = mergedConfig;
-        viz.rect(pos.x, pos.y, width, height, style);
+        viz().rect(pos.x, pos.y, width, height, style);
         widget(
             {
                 x: pos.x + padding,
