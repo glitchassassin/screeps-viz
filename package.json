@@ -4,7 +4,9 @@
   "description": "In-game visualizations and metrics library for Screeps",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "jest",
     "build": "rollup -c"
@@ -24,8 +26,10 @@
     "@types/screeps": "^3.2.2",
     "jest": "^27.0.4",
     "rollup": "^2.52.1",
+    "rollup-plugin-clear": "^2.0.7",
     "ts-jest": "^27.0.3",
     "tslib": "^2.3.0",
     "typescript": "^4.3.4"
-  }
+  },
+  "dependencies": {}
 }
