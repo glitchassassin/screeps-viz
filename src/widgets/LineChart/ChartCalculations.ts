@@ -20,7 +20,8 @@ export const calculateScaleFromSeries = (chartSeriesData: LineChartSeriesData): 
         y: { min: Infinity, max: -Infinity },
     };
     return Object.values(chartSeriesData).reduce((results, series) => {
-        const seriesBounds = series.reduce((seriesResults, row) => {
+        const data = Array.isArray(series) ? series : series.values;
+        const seriesBounds = data.reduce((seriesResults, row) => {
             return {
                 x: { 
                     min: Math.min(seriesResults.x.min, row[0]), 

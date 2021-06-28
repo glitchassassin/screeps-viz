@@ -6,5 +6,6 @@ export * from "./widgets/Rectangle";
 export * from "./widgets/Table";
 export * from "./widgets/Label";
 export * from "./widgets/LineChart/LineChart";
+export * as Metrics from "./metrics/Timeseries";
 
 export { loop } from "./demo";

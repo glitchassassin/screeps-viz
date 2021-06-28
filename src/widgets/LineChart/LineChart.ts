@@ -1,12 +1,12 @@
 import { calculateScaleFromSeries, chartSpaceToRoomPosition, scaleToChartSpace } from "./ChartCalculations";
 
+import { Timeseries } from "metrics/Timeseries";
 import { Widget } from "../../Widget";
 import { viz } from "../../Viz";
 
 export interface LineChartSeriesConfig {
     label: string,
     color?: string,
-    style?: 'dotted' | 'dashed' | 'solid'
 }
 
 export interface LineChartConfig {
@@ -14,18 +14,18 @@ export interface LineChartConfig {
     style: PolyStyle,
     series: Record<string, LineChartSeriesConfig>,
     scale?: {
-        x: {
-            min: number,
-            max: number
+        x?: {
+            min?: number,
+            max?: number
         },
-        y: {
-            min: number,
-            max: number
+        y?: {
+            min?: number,
+            max?: number
         }
     },
 }
 
-export type LineChartSeriesData = Record<string, [number, number][]>
+export type LineChartSeriesData = Record<string, Timeseries|[number, number][]>
 
 const defaultConfig: LineChartConfig = {
     label: '',
@@ -63,8 +63,16 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
         viz().rect(pos.x + 1, pos.y, width - 1, height - 1, mergedConfig.style);
 
         // Calculate bounds of chart
-        if (!config.scale) {
-            mergedConfig.scale = calculateScaleFromSeries(chartSeriesData);
+        const calculatedScale = calculateScaleFromSeries(chartSeriesData);
+        const mergedScale = {
+            x: {
+                min: config.scale?.x?.min ?? calculatedScale.x.min,
+                max: config.scale?.x?.max ?? calculatedScale.x.max,
+            },
+            y: {
+                min: config.scale?.y?.min ?? calculatedScale.y.min,
+                max: config.scale?.y?.max ?? calculatedScale.y.max,
+            }
         }
 
         // Display axes and labels, if configured
@@ -90,39 +98,42 @@ export function LineChart(data: (params: Record<string, any>) => LineChartSeries
         })
 
         viz().text(
-            mergedConfig.scale?.x.min.toFixed(0) ?? '',
+            mergedScale.x.min.toFixed(0),
             pos.x + 1.5,
             pos.y + height
         )
         viz().text(
-            mergedConfig.scale?.x.max.toFixed() ?? '',
+            mergedScale.x.max.toFixed(0),
             pos.x + width - 0.5,
             pos.y + height
         )
         viz().text(
-            mergedConfig.scale?.y.min.toFixed(0) ?? '',
+            mergedScale.y.min.toFixed(0),
             pos.x,
             pos.y + height - 1
         )
         viz().text(
-            mergedConfig.scale?.y.max.toFixed(0) ?? '',
+            mergedScale.y.max.toFixed(0),
             pos.x,
             pos.y + 0.5
         )
 
         // Display lines
-        series.forEach(s => {
-            viz().poly(chartSeriesData[s].map(coords => 
+        series.forEach(seriesName => {
+            const s = chartSeriesData[seriesName];
+            const data = Array.isArray(s) ? s : s.values;
+            viz().poly(data.map(coords => 
                 chartSpaceToRoomPosition(
                     pos.x + 1, 
                     pos.y,
                     width - 1,
                     height - 1,
-                    scaleToChartSpace(mergedConfig.scale!, coords)
+                    scaleToChartSpace(mergedScale, coords)
                 )
             ), {
                 strokeWidth: 0.1,
-                stroke: mergedConfig.series[s].color
+                stroke: mergedConfig.series[seriesName].color,
+                opacity: 1
             });
         });
     };

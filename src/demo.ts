@@ -1,3 +1,5 @@
+import { Timeseries, newTimeseries, update } from "metrics/Timeseries";
+
 import { Bar } from "./widgets/Bar";
 import { Dashboard } from "./Dashboard";
 import { Grid } from "./widgets/Grid";
@@ -5,6 +7,16 @@ import { Label } from "./widgets/Label";
 import { LineChart } from "./widgets/LineChart/LineChart";
 import { Rectangle } from "./widgets/Rectangle";
 import { Table } from "./widgets/Table";
+
+declare global {
+    interface Memory {
+        timeseries1: Timeseries
+        timeseries2: Timeseries
+    }
+}
+
+Memory.timeseries1 ??= newTimeseries();
+Memory.timeseries2 ??= newTimeseries();
 
 const dashboard = Dashboard({
     widgets: [
@@ -88,29 +100,24 @@ const dashboard = Dashboard({
             widget: Rectangle(
                 LineChart(
                     () => ({
-                        series1: [
-                            [Game.time - 3, 0],
-                            [Game.time - 2, 1],
-                            [Game.time - 1, 1],
-                            [Game.time - 0, 2],
-                        ],
-                        series2: [
-                            [Game.time - 3, 0],
-                            [Game.time - 2, 2],
-                            [Game.time - 1, 1],
-                            [Game.time - 0, 0],
-                        ],
+                        series1: Memory.timeseries1,
+                        series2: Memory.timeseries2,
                     }),
                     {
+                        scale: {
+                            y: {
+                                min: 0,
+                                max: 10
+                            }
+                        },
                         series: {
                             series1: {
                                 label: 'Series 1',
-                                color: 'lime'
+                                color: 'lime',
                             },
                             series2: {
                                 label: 'Series 2',
-                                color: 'aqua',
-                                style: 'dashed'
+                                color: 'aqua'
                             },
                         }
                     }
@@ -130,5 +137,7 @@ const dashboard = Dashboard({
 });
 
 export function loop() {
+    update(Memory.timeseries1, Math.random() * 10, 20);
+    update(Memory.timeseries2, Math.random() * 10, 20);
     dashboard();
 }
