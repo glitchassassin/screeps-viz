@@ -16,6 +16,8 @@ npm install screeps-viz
 
 This library is designed around functional programming principles. Until we have better documentation, please consult the source for each widget for its expected parameters, and see `src/demo.ts` for examples.
 
+[This article](https://www.jonwinsley.com/screeps/2021/06/28/screeps-reports-metrics/) goes into some more detail on the implementation and usage.
+
 ### Widgets
 
 Most of the widgets will use a pattern like this, passing in a function that will be invoked each tick to get the current data and a config object.
