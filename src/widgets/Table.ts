@@ -22,7 +22,11 @@ export function Table(data: (params: Record<string, any>) => TableData, config: 
         let rows = data(params).slice(0, height - labelHeight);
         
         const columnWidths = headers.map((header, index) => {
-            let width = Math.ceil(rows.reduce((maxWidth, row) => Math.max(header.length, maxWidth, row[index].toString().length), 0))
+            let width = Math.max(
+                header.length, 
+                rows.reduce((maxWidth, row) => Math.max(maxWidth, row[index].toString().length), 0), 
+                1
+            );
             return width;
         });
         const columnWidthSum = columnWidths.reduce((a, b) => (a + b), 0);

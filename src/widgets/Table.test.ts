@@ -33,4 +33,13 @@ describe('Table', () => {
         expect(viz().text).toBeCalledWith('1', 0, 1, {'align': 'left'});
         expect(viz().text).toBeCalledWith('8', 7.5, 2, {'align': 'left'});
     });
+    it('should plot headers with no data', () => {
+        const widget = Table(() => ([]), {headers: ['1', '2', '3', '4']});
+        widget({x: 0, y: 0}, 10, 10, {})
+        expect(viz().text).toBeCalledTimes(4);
+        expect(viz().text).toBeCalledWith('1', 0, 0, {'align': 'left'});
+        expect(viz().text).toBeCalledWith('2', 2.5, 0, {'align': 'left'});
+        expect(viz().text).toBeCalledWith('3', 5, 0, {'align': 'left'});
+        expect(viz().text).toBeCalledWith('4', 7.5, 0, {'align': 'left'});
+    });
 });
