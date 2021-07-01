@@ -1,4 +1,4 @@
-import { Widget } from "../Widget";
+import { ConfiguredWidget } from "../Widget";
 import { viz } from "../Viz";
 
 export interface BarConfig {
@@ -12,41 +12,34 @@ export interface BarData {
     maxValue?: number
 }
 
-const defaultConfig: BarConfig = {
+export const Bar = ConfiguredWidget<BarData, BarConfig>({
     label: '',
     style: {
         fill: 'white',
         stroke: 'white',
         lineStyle: 'solid'
     }
-}
+}, ({data, config, renderConfig}) => {
+    let { height, width, pos } = renderConfig;
+    let { value, maxValue } = data;
 
-export function Bar(data: (params: Record<string, any>) => BarData, config: Partial<BarConfig> = {}): Widget {
-    const mergedConfig = {
-        ...defaultConfig,
-        ...config
-    };
-    return (pos: {x: number, y: number}, width: number, height: number, params: Record<string, any>) => {
-        let { value, maxValue } = data(params);
+    const effectiveMax = Math.max(value, maxValue ?? 0);
+    const valueHeight = Math.max(
+        effectiveMax !== 0 ? (value / effectiveMax) * (height - 1) : 0,
+        0.1
+    );
+    const maxValueHeight = Math.max(
+        effectiveMax !== 0 ? ((maxValue ?? value) / effectiveMax) * (height - 1) : 0,
+        0.1
+    );
 
-        const effectiveMax = Math.max(value, maxValue ?? 0);
-        const valueHeight = Math.max(
-            effectiveMax !== 0 ? (value / effectiveMax) * (height - 1) : 0,
-            0.1
-        );
-        const maxValueHeight = Math.max(
-            effectiveMax !== 0 ? ((maxValue ?? value) / effectiveMax) * (height - 1) : 0,
-            0.1
-        );
+    // Draw labels
+    let center = pos.x + width / 2;
+    viz().text(config.label, center, pos.y + height);
+    viz().text(maxValue?.toFixed(0) ?? '', center, pos.y + 1);
+    viz().text(value.toFixed(0), center, pos.y + height - 1.5);
 
-        // Draw labels
-        let center = pos.x + width / 2;
-        viz().text(mergedConfig.label, center, pos.y + height);
-        viz().text(maxValue?.toFixed(0) ?? '', center, pos.y + 1);
-        viz().text(value.toFixed(0), center, pos.y + height - 1.5);
-
-        // Draw bar, scaled
-        viz().rect(pos.x, pos.y + (height - maxValueHeight - 1), width, maxValueHeight, {...mergedConfig.style, fill: 'transparent'});
-        viz().rect(pos.x, pos.y + (height - valueHeight - 1), width, valueHeight, {...mergedConfig.style, stroke: 'transparent'});
-    };
-}
+    // Draw bar, scaled
+    viz().rect(pos.x, pos.y + (height - maxValueHeight - 1), width, maxValueHeight, {...config.style, fill: 'transparent'});
+    viz().rect(pos.x, pos.y + (height - valueHeight - 1), width, valueHeight, {...config.style, stroke: 'transparent'});
+})

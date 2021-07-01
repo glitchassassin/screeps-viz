@@ -7,10 +7,6 @@ describe('Dashboard', () => {
     beforeEach(() => {
         (setRoom as jest.Mock).mockClear();
     })
-    it('should generate a function', () => {
-        const dashboard = Dashboard({});
-        expect(dashboard).toBeInstanceOf(Function);
-    });
     it('should call widget method', () => {
         const widget = jest.fn();
         const pos = {
@@ -19,8 +15,7 @@ describe('Dashboard', () => {
         };
         const width = 0;
         const height = 0;
-        const args = {};
-        const dashboard = Dashboard({
+        Dashboard({
             widgets: [
                 {
                     widget,
@@ -29,12 +24,14 @@ describe('Dashboard', () => {
                     height
                 }
             ]
-        })
-        dashboard(args);
-        expect(widget).toBeCalledWith(pos, width, height, args);
+        });
+        expect(widget).toBeCalledWith({ pos, width, height });
     });
     it('should set a given room', () => {
-        const dashboard = Dashboard({room: 'room'});
+        Dashboard({ 
+            widgets: [], 
+            config: { room: 'room' }
+        });
         expect(setRoom).toHaveBeenCalledWith('room');
     })
 })

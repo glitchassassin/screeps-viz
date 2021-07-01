@@ -1,30 +1,31 @@
-import { Widget } from "./Widget";
+import { Widget, WidgetPropsGenerator } from "./Widget";
+
+import { deepMerge } from "./utils/deepMerge";
 import { setRoom } from "./Viz";
 
+export interface DashboardWidget {
+    pos: {x: number, y: number},
+    width: number,
+    height: number,
+    widget: Widget
+}
 export interface DashboardConfig {
-    widgets: {
-        pos: {x: number, y: number},
-        width: number,
-        height: number,
-        widget: Widget
-    }[],
     room?: string
 }
 
-const defaultConfig: DashboardConfig = {
-    widgets: []
-}
+const defaultConfig: DashboardConfig = {}
 
-export function Dashboard(config: Partial<DashboardConfig>) {
-    const mergedConfig = {
-        ...defaultConfig,
-        ...config
-    }
-    setRoom(mergedConfig.room);
+export function Dashboard(params: {widgets: DashboardWidget[], config?: DashboardConfig}) {
+    const { widgets, config } = params;
+    const mergedConfig = config ? deepMerge(defaultConfig, config) : defaultConfig;
     
-    return (args: Record<string, any> = {}) => {
-        mergedConfig.widgets.forEach(widget => {
-            widget.widget(widget.pos, widget.width, widget.height, args);
-        })
-    }
+    setRoom(mergedConfig.room);
+
+    widgets.forEach(widget => {
+        widget.widget({
+            pos: widget.pos, 
+            width: widget.width, 
+            height: widget.height
+        });
+    })
 }
