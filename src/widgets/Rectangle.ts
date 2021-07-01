@@ -1,4 +1,5 @@
-import { Widget } from "../Widget";
+import { ConfiguredWidget, Widget } from "../Widget";
+
 import { viz } from "../Viz";
 
 export interface RectangleConfig {
@@ -6,7 +7,7 @@ export interface RectangleConfig {
     style: PolyStyle
 }
 
-const defaultConfig: RectangleConfig = {
+export const Rectangle = ConfiguredWidget<Widget, RectangleConfig>({
     padding: 1,
     style: {
         fill: 'black',
@@ -14,24 +15,17 @@ const defaultConfig: RectangleConfig = {
         opacity: 0.3,
         lineStyle: 'solid'
     }
-}
+}, ({data, config, renderConfig}) => {
+    const { padding, style } = config;
+    const { pos, width, height} = renderConfig;
+    viz().rect(pos.x, pos.y, width, height, style);
 
-export function Rectangle(widget: Widget, config: Partial<RectangleConfig> = {}): Widget {
-    const mergedConfig = {
-        ...defaultConfig,
-        ...config
-    };
-    return (pos: {x: number, y: number}, width: number, height: number, params: Record<string, any>) => {
-        const { padding, style } = mergedConfig;
-        viz().rect(pos.x, pos.y, width, height, style);
-        widget(
-            {
-                x: pos.x + padding,
-                y: pos.y + padding,
-            }, 
-            width - (2 * padding), 
-            height - (2 * padding), 
-            params
-        );
-    }
-}
+    data({
+        pos: {
+            x: pos.x + padding,
+            y: pos.y + padding,
+        }, 
+        width: width - (2 * padding), 
+        height: height - (2 * padding)
+    });
+});
