@@ -1,6 +1,6 @@
 {
   "name": "screeps-viz",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "In-game visualizations and metrics library for Screeps",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
