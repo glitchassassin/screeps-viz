@@ -7,6 +7,7 @@ import { Label } from "./widgets/Label";
 import { LineChart } from "./widgets/LineChart/LineChart";
 import { Rectangle } from "./widgets/Rectangle";
 import { Table } from "./widgets/Table";
+import { Dial } from "widgets/Dial";
 
 declare global {
     interface Memory {
@@ -140,6 +141,42 @@ export function loop() {
                     data: Label({
                         data: 'screeps-viz', 
                         config: {style: {font: 1.4}}
+                    })
+                })
+            },
+            {
+                pos: {
+                    x: 1,
+                    y: 21
+                },
+                width: 31,
+                height: 8,
+                widget: Rectangle({
+                    data: Grid({
+                        data: [
+                            Dial({
+                                data: { value: 0.25 }, 
+                                config: {
+                                    label: '25%',
+                                    foregroundStyle: { stroke: 'cyan' }
+                                }
+                            }),
+                            Dial({
+                                data: { value: 0.50 }, 
+                                config: {
+                                    label: '50%',
+                                    foregroundStyle: { stroke: 'green' }
+                                }
+                            }),
+                            Dial({
+                                data: { value: 0.75 }, 
+                                config: {
+                                    label: '75%',
+                                    foregroundStyle: { stroke: 'red' }
+                                }
+                            }),
+                        ],
+                        config: { columns: 3, rows: 1 }, 
                     })
                 })
             }
