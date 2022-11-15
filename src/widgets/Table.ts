@@ -20,7 +20,7 @@ export const Table = ConfiguredWidget<TableData, TableConfig>({
     const columnWidths = headers.map((header, index) => {
         let width = Math.max(
             header.length, 
-            rows.reduce((maxWidth, row) => Math.max(maxWidth, (row[index] || 'undefined').toString().length), 0), 
+            rows.reduce((maxWidth, row) => Math.max(maxWidth, (row[index] ?? 'none').toString().length), 0), 
             1
         );
         return width;
