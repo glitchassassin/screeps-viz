@@ -77,4 +77,18 @@ describe('Table', () => {
         expect(viz().text).toBeCalledWith('3', 5, 0, {'align': 'left'});
         expect(viz().text).toBeCalledWith('4', 7.5, 0, {'align': 'left'});
     });
+    it('should not crash if row is short', () => {
+        const widget = Table(() => ({
+            data: [['1', '2', '3'], ['5', '6', '7', '8']], 
+            config: {headers: ['1', '2', '3', '4']}
+        }));
+        widget({
+            pos: {x: 0, y: 0}, 
+            width: 10, 
+            height: 10,
+        });
+        expect(viz().text).toBeCalledTimes(11);
+        expect(viz().text).toBeCalledWith('1', 0, 1, {'align': 'left'});
+        expect(viz().text).toBeCalledWith('8', 7.5, 2, {'align': 'left'});
+    });
 });
